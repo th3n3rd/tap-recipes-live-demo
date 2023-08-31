@@ -1,6 +1,9 @@
 #!/bin/bash
 
-APP_URL=$(kubectl get kservice consumer -o yaml | yq '.status.url' | tr -d '\n' )
+set -x
+
+NAMESPACE=${1:-"apps"}
+APP_URL=$(kubectl get kservice consumer -n "$NAMESPACE" -o yaml | yq '.status.url' | tr -d '\n' )
 EXPECTED="{\"content\":\"Hello World!\"}"
 ACTUAL=$(curl -s -XGET "$APP_URL") # add --insecure for self-signed certs
 if [ "$ACTUAL" != "$EXPECTED" ]; then
