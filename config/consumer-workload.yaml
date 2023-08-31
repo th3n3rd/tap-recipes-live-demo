@@ -1,0 +1,26 @@
+# https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/scc-workload-reference.html
+# https://cartographer.sh/docs/v0.7.0/reference/workload/
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: consumer
+  labels:
+    app.kubernetes.io/part-of: consumer
+    apps.tanzu.vmware.com/workload-type: web
+spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
+  params:
+    - name: annotations
+      value:
+        autoscaling.knative.dev/min-scale: "1" # For rolling deployment
+  source:
+    git:
+      url: https://github.com/th3n3rd/tap-recipes-live-demo.git
+      ref:
+        branch: main
+    subPath: consumer # only useful for monorepos
+  env: []
+  serviceClaims: []
