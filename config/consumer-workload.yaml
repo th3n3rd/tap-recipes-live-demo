@@ -16,9 +16,22 @@ spec:
     - name: annotations
       value:
         autoscaling.knative.dev/min-scale: "1" # For rolling deployment
+    # https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/scc-gitops-vs-regops.html#gitops-workload-parameters-5
+    - name: gitops_server_address
+      value: ssh://git@github.com  # important to have the protocol ssh://
+    - name: gitops_repository_owner
+      value: th3n3rd
+    - name: gitops_repository_name
+      value: tap-recipes-live-demo-gitops
+    - name: gitops_branch
+      value: dev
+    - name: gitops_commit_message
+      value: "Update consumer config"
+    - name: gitops_ssh_secret
+      value: tap-gitops-ssh-auth
   source:
     git:
-      url: https://github.com/th3n3rd/tap-recipes-live-demo.git
+      url: ssh://git@github.com/th3n3rd/tap-recipes-live-demo.git
       ref:
         branch: main
     subPath: consumer # only useful for monorepos
