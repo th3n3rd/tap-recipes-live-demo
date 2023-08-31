@@ -1,0 +1,22 @@
+apiVersion: carto.run/v1alpha1
+kind: Deliverable
+metadata:
+  labels:
+    app.kubernetes.io/component: deliverable
+    app.kubernetes.io/part-of: consumer
+    app.tanzu.vmware.com/deliverable-type: web
+    apps.tanzu.vmware.com/workload-type: web
+    carto.run/resource-name: deliverable
+    carto.run/workload-name: consumer
+  name: consumer
+  namespace: apps-staging
+spec:
+  params:
+    - name: gitops_ssh_secret
+      value: tap-gitops-ssh-auth
+  source:
+    git:
+      ref:
+        branch: staging
+      url: ssh://git@github.com/th3n3rd/tap-recipes-live-demo-gitops.git
+    subPath: config/apps/consumer
